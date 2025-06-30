@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Georute Bantul - Rekomendasi Lokasi & Perencanaan Rute Sampah</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        /* ----- Global Styling & Fonts ----- */
+        :root {
+            --primary-color: #2c3e50; /* Dark Blue */
+            --secondary-color: #3498db; /* Bright Blue */
+            --accent-color: #27ae60; /* Green */
+            --bg-light: #f4f7f9;
+            --text-dark: #333;
+            --text-light: #fff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ----- Header & Navigation ----- */
+        .header {
+            background-color: var(--text-light);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--accent-color);
+            margin-right: 8px;
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-menu li {
+            margin-left: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* ----- Hero Section ----- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            text-align: center;
+            padding: 5rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* ----- Section Styling ----- */
+        .section {
+            padding: 4rem 0;
+            scroll-margin-top: 90px; /* Offset for sticky header */
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        /* ----- Card & Card Menu Styling (USED FOR HOME & MAPS) ----- */
+        .map-menu-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--text-light);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            flex-grow: 1; /* Makes paragraph take available space */
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9; /* Darker blue */
+        }
+
+        /* ----- Tentang Kami Section ----- */
+        .team-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .team-member {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            width: 300px;
+        }
+
+        .team-member .avatar {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .team-member h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .team-member .nim {
+            font-size: 1rem;
+            color: #777;
+        }
+
+        /* ----- Footer ----- */
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        /* ----- Responsive ----- */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="#" class="logo"><i class="fa-solid fa-route"></i>Georute Bantul</a>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#about-project">Home</a></li>
+                    <li><a href="#map-menu">Peta Interaktif</a></li>
+                    <li><a href="#tentang-kami">Tentang Kami</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Selamat Datang di Georute Bantul</h1>
+            <p>Solusi Pengelolaan Sampah Melalui Pendekatan Geospasial</p>
+        </section>
+
+        <section id="about-project" class="section">
+             <div class="container">
+                <h2 class="section-title">Fitur Utama</h2>
+                <div class="map-menu-container">
+                    
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <h3>Analisis Lokasi Strategis</h3>
+                        <p>Menggunakan teknologi GIS untuk mengidentifikasi lokasi optimal pembangunan TPS 3R baru berdasarkan kepadatan penduduk, aksesibilitas, dan faktor lingkungan.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-route"></i></div>
+                        <h3>Optimasi Rute Pengangkutan</h3>
+                        <p>Sistem perencanaan rute yang efisien untuk mengoptimalkan jalur pengangkutan sampah dari TPS 3R menuju TPST, mengurangi biaya operasional dan emisi kendaraan.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-leaf"></i></div>
+                        <h3>Dampak Lingkungan</h3>
+                        <p>Monitoring dan evaluasi dampak lingkungan dari sistem pengelolaan sampah, termasuk pengurangan emisi gas rumah kaca dan peningkatan kualitas lingkungan.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="map-menu" class="section">
+            <div class="container">
+                <h2 class="section-title">Peta Interaktif</h2>
+                <div class="map-menu-container">
+                    
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-dumpster-fire"></i></div>
+                        <h3>Peta Sebaran TPST</h3>
+                        <p>Visualisasi lokasi Tempat Pembuangan Sampah Terpadu (TPST) yang ada di Kabupaten Bantul.</p>
+                        <a href="peta-tpst.html" class="btn" target="_blank">Buka Peta</a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-recycle"></i></div>
+                        <h3>Peta Sebaran TPS3R</h3>
+                        <p>Menampilkan sebaran lokasi Tempat Pengelolaan Sampah Reuse, Reduce, and Recycle (TPS3R) yang aktif.</p>
+                        <a href="peta-tps3r.html" class="btn" target="_blank">Buka Peta</a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-map-pin"></i></div>
+                        <h3>Peta Titik Rekomendasi</h3>
+                        <p>Peta hasil analisis GeoDesign yang menunjukkan titik-titik lokasi ideal untuk pembangunan TPS3R baru.</p>
+                        <a href="peta-rekomendasi.html" class="btn" target="_blank">Buka Peta</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="tentang-kami" class="section container">
+            <h2 class="section-title">Tim Kami</h2>
+            <div class="team-container">
+                <div class="team-member">
+                    <div class="avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                    <h4>ANANDA NUR INDAH SARI</h4>
+                    <p class="nim">(117220018)</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                    <h4>AMELIANA NURUL AISYAH</h4>
+                    <p class="nim">(117220020)</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar"><i class="fa-solid fa-user-graduate"></i></div>
+                    <h4>ACHMAD SOFYAN</h4>
+                    <p class="nim">(117220058)</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Georute Bantul. Sistem Informasi Geografis Terapan.</p>
+    </footer>
+
+</body>
+</html>
